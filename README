@@ -1,0 +1,5 @@
+# YS
+
+A simple client for Yahoo finance's API.
+
+Build with Crystal : `crystal build --release ys.cr`
