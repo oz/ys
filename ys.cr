@@ -30,9 +30,9 @@ class ArgParser
 
   # @return [NoReturn]
   def help!
-    puts "Usage: stock <options...>\n\n"
-    puts "  - Get a quote:       stock quote <NAME>"
-    puts "  - Change currencies: stock change <FROM> <TO> <AMOUNT>"
+    puts "Usage: #{PROGRAM_NAME} <options...>\n\n"
+    puts "  - Get a quote:       #{PROGRAM_NAME} quote <NAME>"
+    puts "  - Change currencies: #{PROGRAM_NAME} change <FROM> <TO> <AMOUNT>"
 
     exit(1)
   end
