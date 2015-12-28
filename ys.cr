@@ -39,10 +39,10 @@ class ArgParser
 end
 
 class YahooFinance
-  BASE_URL = "http://download.finance.yahoo.com/d/quotes.csv"
+  API_HOST = "download.finance.yahoo.com"
 
-  def quote(name)
-    res = HTTP::Client.get "#{BASE_URL}?s=#{name}&f=a"
+  def quote(name : String)
+    res = client.get quote_api(name)
 
     if res.status_code == 200
       res.body
@@ -50,12 +50,23 @@ class YahooFinance
       "HTTP error: #{res.status_code}"
     end
   rescue err
-    "Fatal error: #{err}"
+    "Error: #{err}"
   end
 
   def change(from, to, amount)
     value = quote "#{from}#{to}=X"
     value.to_f * amount.to_f
+  end
+
+  def client
+    HTTP::Client.new(API_HOST).tap do |client|
+      client.connect_timeout = 1
+      client.read_timeout = 1
+    end
+  end
+
+  def quote_api(name : String)
+    "http://#{API_HOST}/d/quotes.csv?s=#{name}&f=a"
   end
 end
 
@@ -63,7 +74,7 @@ opts = ArgParser.new(ARGV).parse
 yf   = YahooFinance.new
 
 if opts.quote
-  puts yf.quote(opts.quote)
+  puts yf.quote(opts.quote.to_s)
 elsif opts.change
   from, to, amount = opts.change as Array(String)
   puts yf.change(from, to, amount)
