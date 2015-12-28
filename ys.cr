@@ -71,7 +71,7 @@ class YahooFinance
 end
 
 opts = ArgParser.new(ARGV).parse
-yf   = YahooFinance.new
+yf = YahooFinance.new
 
 if opts.quote
   puts yf.quote(opts.quote.to_s)
